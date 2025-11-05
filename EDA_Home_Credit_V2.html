@@ -1,0 +1,2358 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Análisis Exploratorio de Datos (EDA) - Home Credit Default Risk &#8212; Home Credit Risk Analysis</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'EDA_Home_Credit_V2';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Evaluación de Modelos - Home Credit Default Risk" href="Modelos_Home_Credit.html" />
+    <link rel="prev" title="Home Credit Risk Analysis" href="contexto.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="contexto.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Home Credit Risk Analysis</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="contexto.html">
+                    Home Credit Risk Analysis
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Análisis Exploratorio de Datos (EDA) - Home Credit Default Risk</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Modelos_Home_Credit.html">Evaluación de Modelos - Home Credit Default Risk</a></li>
+
+
+
+
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/Nicoplayz58/Home-Credit-Risky-Analysis" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/Nicoplayz58/Home-Credit-Risky-Analysis/issues/new?title=Issue%20on%20page%20%2FEDA_Home_Credit_V2.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/EDA_Home_Credit_V2.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Análisis Exploratorio de Datos (EDA) - Home Credit Default Risk</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduccion">Introducción</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivos-del-eda">Objetivos del EDA</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#carga-de-datos">Carga de datos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#diccionario-de-datos">Diccionario de datos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-descriptivo-de-los-datos">Análisis Descriptivo de los datos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-de-la-distribucion-de-la-variable-target">Análisis de la Distribución de la Variable TARGET</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implicaciones-para-el-modelado-predictivo">Implicaciones para el Modelado Predictivo</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#estrategias-para-mitigar-el-desequilibrio">Estrategias para Mitigar el Desequilibrio</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">Conclusión</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#identificacion-de-datos-nulos">Identificación de datos nulos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-de-variables-con-alto-porcentaje-de-valores-nulos">Análisis de Variables con Alto Porcentaje de Valores Nulos</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-con-mayor-porcentaje-de-datos-faltantes">1. Variables con Mayor Porcentaje de Datos Faltantes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-relacionadas-con-caracteristicas-de-vivienda">2. Variables Relacionadas con Características de Vivienda</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Conclusión</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-de-correlacion-variables-numericas">Analisis de Correlación (Variables Numéricas)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretacion">Interpretación</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#puntajes-de-riesgo-externo">1. Puntajes de Riesgo Externo</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#factores-financieros">2. Factores Financieros</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#factores-demograficos-y-de-informacion-de-contacto">3. Factores Demográficos y de Información de Contacto</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Conclusión</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-visual-de-las-distribuciones-de-las-variables-mas-correlacionadas-con-target">Análisis Visual de las Distribuciones de las Variables Más Correlacionadas con TARGET</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ext-source-3-ext-source-2-y-ext-source-1">1. EXT_SOURCE_3, EXT_SOURCE_2 y EXT_SOURCE_1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#days-birth">2. DAYS_BIRTH</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#amt-balance-mean-y-amt-balance-max">3. AMT_BALANCE_mean y AMT_BALANCE_max</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Conclusión</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-de-normalidad-y-asimetria">Análisis de Normalidad y Asimetría</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#normalidad-pruebas-de-shapiro-wilk-y-kolmogorov-smirnov">1. Normalidad (Pruebas de Shapiro-Wilk y Kolmogorov-Smirnov)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#asimetria">2. Asimetría</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Conclusión</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-de-multicolinealidad-variables-numericas">Analisis de multicolinealidad (variables numéricas)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretacion-de-multicolinealidad-en-la-matriz-de-correlacion">Interpretación de Multicolinealidad en la Matriz de Correlación</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-con-alta-correlacion">Variables con alta correlación</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Conclusión</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-de-correlacion-variables-categoricas">Análisis de correlación (variables categóricas)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-del-heatmap-de-chi-cuadrado-variables-categoricas-vs-target">Análisis del Heatmap de Chi-cuadrado: Variables Categóricas vs TARGET</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-con-mayor-relacion-con-target">1. Variables con Mayor Relación con TARGET</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-con-relacion-moderada">2. Variables con Relación Moderada</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-con-impacto-insignificante">3. Variables con Impacto Insignificante</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Conclusión</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretacion-del-heatmap-de-cramer-s-v">Interpretación del Heatmap de Cramér’s V</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#alta-correlacion-0-75"><strong>Alta correlación (&gt;0.75)</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#correlacion-moderada-0-5-0-75"><strong>Correlación moderada (0.5 - 0.75)</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#baja-correlacion-0-5"><em>Baja correlación (&lt;0.5)</em>*</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7"><strong>Conclusión</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-de-las-variables-categoricas-mas-correlacionadas-con-target">Análisis de las Variables Categóricas más Correlacionadas con TARGET</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#organization-type">1. ORGANIZATION_TYPE</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#name-income-type">2. NAME_INCOME_TYPE</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#occupation-type">3. OCCUPATION_TYPE</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#code-reject-reason">4. CODE_REJECT_REASON</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#name-contract-status">5. NAME_CONTRACT_STATUS</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Conclusión</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="analisis-exploratorio-de-datos-eda-home-credit-default-risk">
+<h1>Análisis Exploratorio de Datos (EDA) - Home Credit Default Risk<a class="headerlink" href="#analisis-exploratorio-de-datos-eda-home-credit-default-risk" title="Link to this heading">#</a></h1>
+<section id="introduccion">
+<h2>Introducción<a class="headerlink" href="#introduccion" title="Link to this heading">#</a></h2>
+<p>El acceso al crédito es un factor clave para el desarrollo financiero de las personas, pero evaluar la solvencia de los solicitantes sigue siendo un desafío crucial para las instituciones financieras. La competencia Home Credit Default Risk, organizada en Kaggle, proporciona un conjunto de datos con información detallada sobre clientes de Home Credit, una entidad financiera que ofrece préstamos a personas con historial crediticio limitado o inexistente.</p>
+<p>El objetivo de este análisis es comprender las características de los datos disponibles, identificar patrones y relaciones entre las variables, y detectar posibles factores que puedan influir en la capacidad de pago de los clientes. Para ello, realizaremos un Análisis Exploratorio de Datos (EDA), donde exploraremos la estructura de los datos, analizaremos distribuciones, identificaremos valores atípicos y estudiaremos correlaciones relevantes.</p>
+</section>
+<section id="objetivos-del-eda">
+<h2>Objetivos del EDA<a class="headerlink" href="#objetivos-del-eda" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Comprender la estructura de los datos: Examinar el número de observaciones, tipos de variables y la presencia de valores nulos o inconsistencias.</p></li>
+<li><p>Explorar la distribución de las variables: Identificar características generales de los clientes, como edad, ingresos y estado laboral.</p></li>
+<li><p>Analizar la variable objetivo (TARGET) y su relación con otras variables: Detectar patrones que diferencien a los clientes que cumplen con sus pagos de aquellos que no.</p></li>
+<li><p>Estudiar correlaciones y relaciones entre variables: Determinar qué factores pueden estar asociados con el riesgo de incumplimiento.
+Visualizar los datos de manera efectiva: Utilizar gráficos e histogramas para detectar tendencias y posibles anomalías.</p></li>
+</ol>
+</section>
+<section id="carga-de-datos">
+<h2>Carga de datos<a class="headerlink" href="#carga-de-datos" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="c1"># Lista de archivos en la carpeta</span>
+<span class="n">archivos</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;train_final&quot;</span><span class="p">:</span><span class="s2">&quot;train_final.csv&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;test_final&quot;</span><span class="p">:</span> <span class="s2">&quot;test_final.csv&quot;</span>
+<span class="p">}</span>
+<span class="c1"># Cargar archivos sin procesar</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="n">nombre</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">archivo</span><span class="p">,</span> <span class="n">low_memory</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="k">for</span> <span class="n">nombre</span><span class="p">,</span> <span class="n">archivo</span> <span class="ow">in</span> <span class="n">archivos</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;pandas&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Shape del dataset de entrenamiento final:&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;train_final&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Shape del dataset de prueba final:&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;test_final&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Shape del dataset de entrenamiento final: (1430155, 180)
+Shape del dataset de prueba final: (257457, 179)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="diccionario-de-datos">
+<h2>Diccionario de datos<a class="headerlink" href="#diccionario-de-datos" title="Link to this heading">#</a></h2>
+<p>A continuación podrán observar el diccionario de los datos con los que vamos a trabajar.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="c1"># Intenta leer el archivo con diferentes codificaciones</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;HomeCredit_Columns_description.csv&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">UnicodeDecodeError</span><span class="p">:</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;HomeCredit_Columns_description.csv&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;ISO-8859-1&quot;</span><span class="p">)</span>  <span class="c1"># Alternativa</span>
+
+<span class="c1"># Extraer train_final</span>
+<span class="n">train_final</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;train_final&quot;</span><span class="p">]</span>
+
+<span class="c1"># Extraer las variables únicas de train_final en un DataFrame</span>
+<span class="n">train_variables</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">train_final</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Row&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
+
+<span class="c1"># Eliminar duplicados en el DataFrame de descripciones para evitar repetición de variables</span>
+<span class="n">description_cleaned</span> <span class="o">=</span> <span class="n">description</span><span class="p">[[</span><span class="s1">&#39;Row&#39;</span><span class="p">,</span> <span class="s1">&#39;Description&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
+
+<span class="c1"># Cruzar con el DataFrame de descripciones</span>
+<span class="n">merged_df</span> <span class="o">=</span> <span class="n">train_variables</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">description_cleaned</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">&quot;Row&quot;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">)</span>
+
+<span class="c1"># Configurar Pandas para mostrar toda la tabla sin truncamientos</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_rows&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>  <span class="c1"># Mostrar todas las filas</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_columns&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>  <span class="c1"># Mostrar todas las columnas</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_colwidth&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>  <span class="c1"># Evitar que se corte el texto en columnas largas</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.expand_frame_repr&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>  <span class="c1"># Evita que las columnas se dividan en varias líneas</span>
+
+<span class="c1"># Mostrar la tabla completa en Jupyter Notebook</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">display</span>
+<span class="n">display</span><span class="p">(</span><span class="n">merged_df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Row</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>SK_ID_CURR</td>
+      <td>ID of loan in our sample</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>TARGET</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>NAME_CONTRACT_TYPE_x</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>CODE_GENDER</td>
+      <td>Gender of the client</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>FLAG_OWN_CAR</td>
+      <td>Flag if the client owns a car</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>FLAG_OWN_REALTY</td>
+      <td>Flag if client owns a house or flat</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>CNT_CHILDREN</td>
+      <td>Number of children the client has</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>AMT_INCOME_TOTAL</td>
+      <td>Income of the client</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>AMT_CREDIT_x</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>AMT_ANNUITY_x</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>AMT_GOODS_PRICE_x</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>NAME_TYPE_SUITE_x</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>NAME_INCOME_TYPE</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>NAME_EDUCATION_TYPE</td>
+      <td>Level of highest education the client achieved</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>NAME_FAMILY_STATUS</td>
+      <td>Family status of the client</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>NAME_HOUSING_TYPE</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>REGION_POPULATION_RELATIVE</td>
+      <td>Normalized population of region where client lives (higher number means the client lives in more populated region)</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>DAYS_BIRTH</td>
+      <td>Client's age in days at the time of application</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>DAYS_EMPLOYED</td>
+      <td>How many days before the application the person started current employment</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>DAYS_REGISTRATION</td>
+      <td>How many days before the application did client change his registration</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>DAYS_ID_PUBLISH</td>
+      <td>How many days before the application did client change the identity document with which he applied for the loan</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>OWN_CAR_AGE</td>
+      <td>Age of client's car</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>FLAG_MOBIL</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>FLAG_EMP_PHONE</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>FLAG_WORK_PHONE</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>FLAG_CONT_MOBILE</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>FLAG_PHONE</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>FLAG_EMAIL</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>OCCUPATION_TYPE</td>
+      <td>What kind of occupation does the client have</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>CNT_FAM_MEMBERS</td>
+      <td>How many family members does client have</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>REGION_RATING_CLIENT</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>REGION_RATING_CLIENT_W_CITY</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>WEEKDAY_APPR_PROCESS_START_x</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>33</th>
+      <td>HOUR_APPR_PROCESS_START_x</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>34</th>
+      <td>REG_REGION_NOT_LIVE_REGION</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>35</th>
+      <td>REG_REGION_NOT_WORK_REGION</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>36</th>
+      <td>LIVE_REGION_NOT_WORK_REGION</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>37</th>
+      <td>REG_CITY_NOT_LIVE_CITY</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>38</th>
+      <td>REG_CITY_NOT_WORK_CITY</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>39</th>
+      <td>LIVE_CITY_NOT_WORK_CITY</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>40</th>
+      <td>ORGANIZATION_TYPE</td>
+      <td>Type of organization where client works</td>
+    </tr>
+    <tr>
+      <th>41</th>
+      <td>EXT_SOURCE_1</td>
+      <td>Normalized score from external data source</td>
+    </tr>
+    <tr>
+      <th>42</th>
+      <td>EXT_SOURCE_2</td>
+      <td>Normalized score from external data source</td>
+    </tr>
+    <tr>
+      <th>43</th>
+      <td>EXT_SOURCE_3</td>
+      <td>Normalized score from external data source</td>
+    </tr>
+    <tr>
+      <th>44</th>
+      <td>APARTMENTS_AVG</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>45</th>
+      <td>BASEMENTAREA_AVG</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>46</th>
+      <td>YEARS_BEGINEXPLUATATION_AVG</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>47</th>
+      <td>YEARS_BUILD_AVG</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>48</th>
+      <td>COMMONAREA_AVG</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>49</th>
+      <td>ELEVATORS_AVG</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>50</th>
+      <td>ENTRANCES_AVG</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>51</th>
+      <td>FLOORSMAX_AVG</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>52</th>
+      <td>FLOORSMIN_AVG</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>53</th>
+      <td>LANDAREA_AVG</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>54</th>
+      <td>LIVINGAPARTMENTS_AVG</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>55</th>
+      <td>LIVINGAREA_AVG</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>56</th>
+      <td>NONLIVINGAPARTMENTS_AVG</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>57</th>
+      <td>NONLIVINGAREA_AVG</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>58</th>
+      <td>APARTMENTS_MODE</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>59</th>
+      <td>BASEMENTAREA_MODE</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>60</th>
+      <td>YEARS_BEGINEXPLUATATION_MODE</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>61</th>
+      <td>YEARS_BUILD_MODE</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>62</th>
+      <td>COMMONAREA_MODE</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>63</th>
+      <td>ELEVATORS_MODE</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>64</th>
+      <td>ENTRANCES_MODE</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>65</th>
+      <td>FLOORSMAX_MODE</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>66</th>
+      <td>FLOORSMIN_MODE</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>67</th>
+      <td>LANDAREA_MODE</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>68</th>
+      <td>LIVINGAPARTMENTS_MODE</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>69</th>
+      <td>LIVINGAREA_MODE</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>70</th>
+      <td>NONLIVINGAPARTMENTS_MODE</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>71</th>
+      <td>NONLIVINGAREA_MODE</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>72</th>
+      <td>APARTMENTS_MEDI</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>73</th>
+      <td>BASEMENTAREA_MEDI</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>74</th>
+      <td>YEARS_BEGINEXPLUATATION_MEDI</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>75</th>
+      <td>YEARS_BUILD_MEDI</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>76</th>
+      <td>COMMONAREA_MEDI</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>77</th>
+      <td>ELEVATORS_MEDI</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>78</th>
+      <td>ENTRANCES_MEDI</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>79</th>
+      <td>FLOORSMAX_MEDI</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>80</th>
+      <td>FLOORSMIN_MEDI</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>81</th>
+      <td>LANDAREA_MEDI</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>82</th>
+      <td>LIVINGAPARTMENTS_MEDI</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>83</th>
+      <td>LIVINGAREA_MEDI</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>84</th>
+      <td>NONLIVINGAPARTMENTS_MEDI</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>85</th>
+      <td>NONLIVINGAREA_MEDI</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>86</th>
+      <td>FONDKAPREMONT_MODE</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>87</th>
+      <td>HOUSETYPE_MODE</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>88</th>
+      <td>TOTALAREA_MODE</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>89</th>
+      <td>WALLSMATERIAL_MODE</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>90</th>
+      <td>EMERGENCYSTATE_MODE</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>91</th>
+      <td>OBS_30_CNT_SOCIAL_CIRCLE</td>
+      <td>How many observation of client's social surroundings with observable 30 DPD (days past due) default</td>
+    </tr>
+    <tr>
+      <th>92</th>
+      <td>DEF_30_CNT_SOCIAL_CIRCLE</td>
+      <td>How many observation of client's social surroundings defaulted on 30 DPD (days past due)</td>
+    </tr>
+    <tr>
+      <th>93</th>
+      <td>OBS_60_CNT_SOCIAL_CIRCLE</td>
+      <td>How many observation of client's social surroundings with observable 60 DPD (days past due) default</td>
+    </tr>
+    <tr>
+      <th>94</th>
+      <td>DEF_60_CNT_SOCIAL_CIRCLE</td>
+      <td>How many observation of client's social surroundings defaulted on 60 (days past due) DPD</td>
+    </tr>
+    <tr>
+      <th>95</th>
+      <td>DAYS_LAST_PHONE_CHANGE</td>
+      <td>How many days before application did client change phone</td>
+    </tr>
+    <tr>
+      <th>96</th>
+      <td>FLAG_DOCUMENT_2</td>
+      <td>Did client provide document 2</td>
+    </tr>
+    <tr>
+      <th>97</th>
+      <td>FLAG_DOCUMENT_3</td>
+      <td>Did client provide document 3</td>
+    </tr>
+    <tr>
+      <th>98</th>
+      <td>FLAG_DOCUMENT_4</td>
+      <td>Did client provide document 4</td>
+    </tr>
+    <tr>
+      <th>99</th>
+      <td>FLAG_DOCUMENT_5</td>
+      <td>Did client provide document 5</td>
+    </tr>
+    <tr>
+      <th>100</th>
+      <td>FLAG_DOCUMENT_6</td>
+      <td>Did client provide document 6</td>
+    </tr>
+    <tr>
+      <th>101</th>
+      <td>FLAG_DOCUMENT_7</td>
+      <td>Did client provide document 7</td>
+    </tr>
+    <tr>
+      <th>102</th>
+      <td>FLAG_DOCUMENT_8</td>
+      <td>Did client provide document 8</td>
+    </tr>
+    <tr>
+      <th>103</th>
+      <td>FLAG_DOCUMENT_9</td>
+      <td>Did client provide document 9</td>
+    </tr>
+    <tr>
+      <th>104</th>
+      <td>FLAG_DOCUMENT_10</td>
+      <td>Did client provide document 10</td>
+    </tr>
+    <tr>
+      <th>105</th>
+      <td>FLAG_DOCUMENT_11</td>
+      <td>Did client provide document 11</td>
+    </tr>
+    <tr>
+      <th>106</th>
+      <td>FLAG_DOCUMENT_12</td>
+      <td>Did client provide document 12</td>
+    </tr>
+    <tr>
+      <th>107</th>
+      <td>FLAG_DOCUMENT_13</td>
+      <td>Did client provide document 13</td>
+    </tr>
+    <tr>
+      <th>108</th>
+      <td>FLAG_DOCUMENT_14</td>
+      <td>Did client provide document 14</td>
+    </tr>
+    <tr>
+      <th>109</th>
+      <td>FLAG_DOCUMENT_15</td>
+      <td>Did client provide document 15</td>
+    </tr>
+    <tr>
+      <th>110</th>
+      <td>FLAG_DOCUMENT_16</td>
+      <td>Did client provide document 16</td>
+    </tr>
+    <tr>
+      <th>111</th>
+      <td>FLAG_DOCUMENT_17</td>
+      <td>Did client provide document 17</td>
+    </tr>
+    <tr>
+      <th>112</th>
+      <td>FLAG_DOCUMENT_18</td>
+      <td>Did client provide document 18</td>
+    </tr>
+    <tr>
+      <th>113</th>
+      <td>FLAG_DOCUMENT_19</td>
+      <td>Did client provide document 19</td>
+    </tr>
+    <tr>
+      <th>114</th>
+      <td>FLAG_DOCUMENT_20</td>
+      <td>Did client provide document 20</td>
+    </tr>
+    <tr>
+      <th>115</th>
+      <td>FLAG_DOCUMENT_21</td>
+      <td>Did client provide document 21</td>
+    </tr>
+    <tr>
+      <th>116</th>
+      <td>AMT_REQ_CREDIT_BUREAU_HOUR</td>
+      <td>Number of enquiries to Credit Bureau about the client one hour before application</td>
+    </tr>
+    <tr>
+      <th>117</th>
+      <td>AMT_REQ_CREDIT_BUREAU_DAY</td>
+      <td>Number of enquiries to Credit Bureau about the client one day before application (excluding one hour before application)</td>
+    </tr>
+    <tr>
+      <th>118</th>
+      <td>AMT_REQ_CREDIT_BUREAU_WEEK</td>
+      <td>Number of enquiries to Credit Bureau about the client one week before application (excluding one day before application)</td>
+    </tr>
+    <tr>
+      <th>119</th>
+      <td>AMT_REQ_CREDIT_BUREAU_MON</td>
+      <td>Number of enquiries to Credit Bureau about the client one month before application (excluding one week before application)</td>
+    </tr>
+    <tr>
+      <th>120</th>
+      <td>AMT_REQ_CREDIT_BUREAU_QRT</td>
+      <td>Number of enquiries to Credit Bureau about the client 3 month before application (excluding one month before application)</td>
+    </tr>
+    <tr>
+      <th>121</th>
+      <td>AMT_REQ_CREDIT_BUREAU_YEAR</td>
+      <td>Number of enquiries to Credit Bureau about the client one day year (excluding last 3 months before application)</td>
+    </tr>
+    <tr>
+      <th>122</th>
+      <td>SK_ID_PREV</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>123</th>
+      <td>NAME_CONTRACT_TYPE_y</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>124</th>
+      <td>AMT_ANNUITY_y</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>125</th>
+      <td>AMT_APPLICATION</td>
+      <td>For how much credit did client ask on the previous application</td>
+    </tr>
+    <tr>
+      <th>126</th>
+      <td>AMT_CREDIT_y</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>127</th>
+      <td>AMT_DOWN_PAYMENT</td>
+      <td>Down payment on the previous application</td>
+    </tr>
+    <tr>
+      <th>128</th>
+      <td>AMT_GOODS_PRICE_y</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>129</th>
+      <td>WEEKDAY_APPR_PROCESS_START_y</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>130</th>
+      <td>HOUR_APPR_PROCESS_START_y</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>131</th>
+      <td>FLAG_LAST_APPL_PER_CONTRACT</td>
+      <td>Flag if it was last application for the previous contract. Sometimes by mistake of client or our clerk there could be more applications for one single contract</td>
+    </tr>
+    <tr>
+      <th>132</th>
+      <td>NFLAG_LAST_APPL_IN_DAY</td>
+      <td>Flag if the application was the last application per day of the client. Sometimes clients apply for more applications a day. Rarely it could also be error in our system that one application is in the database twice</td>
+    </tr>
+    <tr>
+      <th>133</th>
+      <td>RATE_DOWN_PAYMENT</td>
+      <td>Down payment rate normalized on previous credit</td>
+    </tr>
+    <tr>
+      <th>134</th>
+      <td>RATE_INTEREST_PRIMARY</td>
+      <td>Interest rate normalized on previous credit</td>
+    </tr>
+    <tr>
+      <th>135</th>
+      <td>RATE_INTEREST_PRIVILEGED</td>
+      <td>Interest rate normalized on previous credit</td>
+    </tr>
+    <tr>
+      <th>136</th>
+      <td>NAME_CASH_LOAN_PURPOSE</td>
+      <td>Purpose of the cash loan</td>
+    </tr>
+    <tr>
+      <th>137</th>
+      <td>NAME_CONTRACT_STATUS</td>
+      <td>Contract status during the month</td>
+    </tr>
+    <tr>
+      <th>138</th>
+      <td>DAYS_DECISION</td>
+      <td>Relative to current application when was the decision about previous application made</td>
+    </tr>
+    <tr>
+      <th>139</th>
+      <td>NAME_PAYMENT_TYPE</td>
+      <td>Payment method that client chose to pay for the previous application</td>
+    </tr>
+    <tr>
+      <th>140</th>
+      <td>CODE_REJECT_REASON</td>
+      <td>Why was the previous application rejected</td>
+    </tr>
+    <tr>
+      <th>141</th>
+      <td>NAME_TYPE_SUITE_y</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>142</th>
+      <td>NAME_CLIENT_TYPE</td>
+      <td>Was the client old or new client when applying for the previous application</td>
+    </tr>
+    <tr>
+      <th>143</th>
+      <td>NAME_GOODS_CATEGORY</td>
+      <td>What kind of goods did the client apply for in the previous application</td>
+    </tr>
+    <tr>
+      <th>144</th>
+      <td>NAME_PORTFOLIO</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>145</th>
+      <td>NAME_PRODUCT_TYPE</td>
+      <td>Was the previous application x-sell o walk-in</td>
+    </tr>
+    <tr>
+      <th>146</th>
+      <td>CHANNEL_TYPE</td>
+      <td>Through which channel we acquired the client on the previous application</td>
+    </tr>
+    <tr>
+      <th>147</th>
+      <td>SELLERPLACE_AREA</td>
+      <td>Selling area of seller place of the previous application</td>
+    </tr>
+    <tr>
+      <th>148</th>
+      <td>NAME_SELLER_INDUSTRY</td>
+      <td>The industry of the seller</td>
+    </tr>
+    <tr>
+      <th>149</th>
+      <td>CNT_PAYMENT</td>
+      <td>Term of previous credit at application of the previous application</td>
+    </tr>
+    <tr>
+      <th>150</th>
+      <td>NAME_YIELD_GROUP</td>
+      <td>Grouped interest rate into small medium and high of the previous application</td>
+    </tr>
+    <tr>
+      <th>151</th>
+      <td>PRODUCT_COMBINATION</td>
+      <td>Detailed product combination of the previous application</td>
+    </tr>
+    <tr>
+      <th>152</th>
+      <td>DAYS_FIRST_DRAWING</td>
+      <td>Relative to application date of current application when was the first disbursement of the previous application</td>
+    </tr>
+    <tr>
+      <th>153</th>
+      <td>DAYS_FIRST_DUE</td>
+      <td>Relative to application date of current application when was the first due supposed to be of the previous application</td>
+    </tr>
+    <tr>
+      <th>154</th>
+      <td>DAYS_LAST_DUE_1ST_VERSION</td>
+      <td>Relative to application date of current application when was the first due of the previous application</td>
+    </tr>
+    <tr>
+      <th>155</th>
+      <td>DAYS_LAST_DUE</td>
+      <td>Relative to application date of current application when was the last due date of the previous application</td>
+    </tr>
+    <tr>
+      <th>156</th>
+      <td>DAYS_TERMINATION</td>
+      <td>Relative to application date of current application when was the expected termination of the previous application</td>
+    </tr>
+    <tr>
+      <th>157</th>
+      <td>NFLAG_INSURED_ON_APPROVAL</td>
+      <td>Did the client requested insurance during the previous application</td>
+    </tr>
+    <tr>
+      <th>158</th>
+      <td>NUM_INSTALMENT_VERSION_nunique</td>
+      <td>Number of unique installment versions in previous loans</td>
+    </tr>
+    <tr>
+      <th>159</th>
+      <td>NUM_INSTALMENT_NUMBER_max</td>
+      <td>Maximum installment number in previous loans</td>
+    </tr>
+    <tr>
+      <th>160</th>
+      <td>AMT_INSTALMENT_sum</td>
+      <td>Total installment amount in previous loans</td>
+    </tr>
+    <tr>
+      <th>161</th>
+      <td>AMT_INSTALMENT_mean</td>
+      <td>Average installment amount in previous loans</td>
+    </tr>
+    <tr>
+      <th>162</th>
+      <td>AMT_INSTALMENT_std</td>
+      <td>Standard deviation of installment amounts in previous loans</td>
+    </tr>
+    <tr>
+      <th>163</th>
+      <td>AMT_INSTALMENT_min</td>
+      <td>Minimum installment amount in previous loans</td>
+    </tr>
+    <tr>
+      <th>164</th>
+      <td>AMT_INSTALMENT_max</td>
+      <td>Maximum installment amount in previous loans</td>
+    </tr>
+    <tr>
+      <th>165</th>
+      <td>AMT_PAYMENT_sum</td>
+      <td>Total amount paid in previous loans</td>
+    </tr>
+    <tr>
+      <th>166</th>
+      <td>AMT_PAYMENT_mean</td>
+      <td>Average amount paid in previous loans</td>
+    </tr>
+    <tr>
+      <th>167</th>
+      <td>AMT_PAYMENT_std</td>
+      <td>Standard deviation of payments in previous loans</td>
+    </tr>
+    <tr>
+      <th>168</th>
+      <td>AMT_PAYMENT_min</td>
+      <td>Minimum payment amount in previous loans</td>
+    </tr>
+    <tr>
+      <th>169</th>
+      <td>AMT_PAYMENT_max</td>
+      <td>Maximum payment amount in previous loans</td>
+    </tr>
+    <tr>
+      <th>170</th>
+      <td>MONTHS_BALANCE_count</td>
+      <td>Number of months of balance records in previous loans</td>
+    </tr>
+    <tr>
+      <th>171</th>
+      <td>AMT_BALANCE_mean</td>
+      <td>Average balance amount in previous loans</td>
+    </tr>
+    <tr>
+      <th>172</th>
+      <td>AMT_BALANCE_std</td>
+      <td>Standard deviation of balance amounts in previous loans</td>
+    </tr>
+    <tr>
+      <th>173</th>
+      <td>AMT_BALANCE_min</td>
+      <td>Minimum balance amount in previous loans</td>
+    </tr>
+    <tr>
+      <th>174</th>
+      <td>AMT_BALANCE_max</td>
+      <td>Maximum balance amount in previous loans</td>
+    </tr>
+    <tr>
+      <th>175</th>
+      <td>AMT_CREDIT_LIMIT_ACTUAL_mean</td>
+      <td>Average credit limit in previous credit card loans</td>
+    </tr>
+    <tr>
+      <th>176</th>
+      <td>AMT_DRAWINGS_CURRENT_sum</td>
+      <td>Total drawings on current credit card loans</td>
+    </tr>
+    <tr>
+      <th>177</th>
+      <td>AMT_DRAWINGS_CURRENT_mean</td>
+      <td>Average drawings on current credit card loans</td>
+    </tr>
+    <tr>
+      <th>178</th>
+      <td>AMT_PAYMENT_CURRENT_sum</td>
+      <td>Total current payments in previous credit card loans</td>
+    </tr>
+    <tr>
+      <th>179</th>
+      <td>AMT_PAYMENT_CURRENT_mean</td>
+      <td>Average current payments in previous credit card loans</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="analisis-descriptivo-de-los-datos">
+<h2>Análisis Descriptivo de los datos<a class="headerlink" href="#analisis-descriptivo-de-los-datos" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">shapiro</span><span class="p">,</span> <span class="n">kstest</span><span class="p">,</span> <span class="n">skew</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Distribución de TARGET</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">countplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">train_final</span><span class="p">[</span><span class="s2">&quot;TARGET&quot;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Distribución de la variable TARGET&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;TARGET (0 = Buen comportamiento, 1 = Mal comportamiento)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Cantidad de registros (Millones)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Proporción de clases</span>
+<span class="n">target_counts</span> <span class="o">=</span> <span class="n">train_final</span><span class="p">[</span><span class="s2">&quot;TARGET&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Proporción de la variable TARGET:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">target_counts</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/68037d87d2bdce736714d500a537b9189990931af6b19a36485ff619b0354eaa.png" src="_images/68037d87d2bdce736714d500a537b9189990931af6b19a36485ff619b0354eaa.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Proporción de la variable TARGET:
+ TARGET
+0    91.37576
+1     8.62424
+Name: proportion, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="analisis-de-la-distribucion-de-la-variable-target">
+<h2>Análisis de la Distribución de la Variable TARGET<a class="headerlink" href="#analisis-de-la-distribucion-de-la-variable-target" title="Link to this heading">#</a></h2>
+<p>El gráfico revela un marcado desbalance en la distribución de la variable <strong>TARGET</strong>, donde:</p>
+<ul class="simple">
+<li><p><strong>91.38%</strong> de los clientes presentan un <strong>buen comportamiento de pago</strong> (clase mayoritaria).</p></li>
+<li><p><strong>8.62%</strong> de los clientes tienen <strong>problemas de pago</strong> (clase minoritaria).</p></li>
+</ul>
+<section id="implicaciones-para-el-modelado-predictivo">
+<h3>Implicaciones para el Modelado Predictivo<a class="headerlink" href="#implicaciones-para-el-modelado-predictivo" title="Link to this heading">#</a></h3>
+<p>Este desbalance puede afectar la capacidad de los modelos de aprendizaje automático, ya que tienden a sesgarse hacia la clase mayoritaria, reduciendo su capacidad para identificar correctamente a los clientes con mayor riesgo de incumplimiento.</p>
+</section>
+<section id="estrategias-para-mitigar-el-desequilibrio">
+<h3>Estrategias para Mitigar el Desequilibrio<a class="headerlink" href="#estrategias-para-mitigar-el-desequilibrio" title="Link to this heading">#</a></h3>
+<p>Para mejorar la precisión del modelo y evitar sesgos, se pueden aplicar técnicas como:</p>
+<ul class="simple">
+<li><p><strong>Submuestreo</strong> de la clase mayoritaria.</p></li>
+<li><p><strong>Sobremuestreo</strong> de la clase minoritaria (SMOTE).</p></li>
+<li><p><strong>Asignación de pesos a las clases</strong> en algoritmos de clasificación.</p></li>
+</ul>
+</section>
+<section id="conclusion">
+<h3>Conclusión<a class="headerlink" href="#conclusion" title="Link to this heading">#</a></h3>
+<p>El desbalance en <strong>TARGET</strong> destaca la necesidad de aplicar estrategias de balanceo para mejorar la capacidad predictiva del modelo y optimizar la evaluación de riesgo crediticio, permitiendo decisiones más precisas en la concesión de préstamos.</p>
+</section>
+</section>
+<section id="identificacion-de-datos-nulos">
+<h2>Identificación de datos nulos<a class="headerlink" href="#identificacion-de-datos-nulos" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calcular porcentaje de valores nulos por variable</span>
+<span class="n">missing_values</span> <span class="o">=</span> <span class="n">train_final</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_final</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+
+<span class="c1"># Mostrar las variables con más del 50% de valores nulos</span>
+<span class="n">high_missing</span> <span class="o">=</span> <span class="n">missing_values</span><span class="p">[</span><span class="n">missing_values</span> <span class="o">&gt;</span> <span class="mi">50</span><span class="p">]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Variables con más del 50</span><span class="si">% d</span><span class="s2">e valores nulos:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">high_missing</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Variables con más del 50% de valores nulos:
+ RATE_INTEREST_PRIVILEGED        99.665001
+RATE_INTEREST_PRIMARY           99.665001
+AMT_PAYMENT_CURRENT_mean        96.295646
+AMT_BALANCE_std                 94.572057
+AMT_DRAWINGS_CURRENT_sum        94.526118
+AMT_BALANCE_min                 94.526118
+AMT_PAYMENT_CURRENT_sum         94.526118
+AMT_DRAWINGS_CURRENT_mean       94.526118
+AMT_BALANCE_mean                94.526118
+MONTHS_BALANCE_count            94.526118
+AMT_BALANCE_max                 94.526118
+AMT_CREDIT_LIMIT_ACTUAL_mean    94.526118
+COMMONAREA_MEDI                 69.607980
+COMMONAREA_AVG                  69.607980
+COMMONAREA_MODE                 69.607980
+NONLIVINGAPARTMENTS_AVG         69.211729
+NONLIVINGAPARTMENTS_MODE        69.211729
+NONLIVINGAPARTMENTS_MEDI        69.211729
+FONDKAPREMONT_MODE              68.131286
+LIVINGAPARTMENTS_AVG            68.128559
+LIVINGAPARTMENTS_MODE           68.128559
+LIVINGAPARTMENTS_MEDI           68.128559
+FLOORSMIN_AVG                   67.584283
+FLOORSMIN_MODE                  67.584283
+FLOORSMIN_MEDI                  67.584283
+OWN_CAR_AGE                     66.256734
+YEARS_BUILD_MEDI                66.207929
+YEARS_BUILD_AVG                 66.207929
+YEARS_BUILD_MODE                66.207929
+LANDAREA_AVG                    59.116669
+LANDAREA_MEDI                   59.116669
+LANDAREA_MODE                   59.116669
+BASEMENTAREA_MEDI               58.203202
+BASEMENTAREA_AVG                58.203202
+BASEMENTAREA_MODE               58.203202
+EXT_SOURCE_1                    56.385357
+NONLIVINGAREA_MEDI              54.747702
+NONLIVINGAREA_MODE              54.747702
+NONLIVINGAREA_AVG               54.747702
+AMT_DOWN_PAYMENT                53.560209
+RATE_DOWN_PAYMENT               53.560209
+ELEVATORS_AVG                   52.880772
+ELEVATORS_MEDI                  52.880772
+ELEVATORS_MODE                  52.880772
+WALLSMATERIAL_MODE              50.347620
+APARTMENTS_MODE                 50.253224
+APARTMENTS_MEDI                 50.253224
+APARTMENTS_AVG                  50.253224
+dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="analisis-de-variables-con-alto-porcentaje-de-valores-nulos">
+<h2>Análisis de Variables con Alto Porcentaje de Valores Nulos<a class="headerlink" href="#analisis-de-variables-con-alto-porcentaje-de-valores-nulos" title="Link to this heading">#</a></h2>
+<p>El análisis de valores faltantes revela que varias variables contienen un porcentaje significativo de datos nulos, lo que podría afectar la calidad del modelo y requerir estrategias de imputación o eliminación.</p>
+<section id="variables-con-mayor-porcentaje-de-datos-faltantes">
+<h3>1. Variables con Mayor Porcentaje de Datos Faltantes<a class="headerlink" href="#variables-con-mayor-porcentaje-de-datos-faltantes" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>RATE_INTEREST_PRIVILEGED (99.67%) y RATE_INTEREST_PRIMARY (99.67%)</strong>: Estas variables, relacionadas con tasas de interés, presentan una ausencia casi total, lo que sugiere que la información sobre tasas preferenciales y primarias no está disponible para la mayoría de los registros.</p></li>
+<li><p><strong>AMT_PAYMENT_CURRENT_mean (96.3%) y AMT_BALANCE_std (94.57%)</strong>: Estas variables financieras, derivadas de la reagrupación de datos de crédito, muestran una alta cantidad de valores nulos, lo que podría indicar falta de reportes en el historial crediticio o limitaciones en la base de datos original.</p></li>
+<li><p><strong>AMT_BALANCE_min (94.52%) y AMT_BALANCE_max (94.52%)</strong>: La ausencia significativa en estos campos sugiere que muchos clientes no cuentan con información detallada sobre sus saldos históricos.</p></li>
+</ul>
+</section>
+<section id="variables-relacionadas-con-caracteristicas-de-vivienda">
+<h3>2. Variables Relacionadas con Características de Vivienda<a class="headerlink" href="#variables-relacionadas-con-caracteristicas-de-vivienda" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>COMMONAREA_AVG (69.61%) y NONLIVINGAPARTMENTS_AVG (69.21%)</strong>: La falta de datos en estas variables puede deberse a registros incompletos sobre propiedades inmobiliarias.</p></li>
+<li><p><strong>OWN_CAR_AGE (66.26%)</strong>: La edad del automóvil del cliente está ausente en un gran número de registros, lo que puede deberse a que muchos clientes no poseen un vehículo.</p></li>
+</ul>
+</section>
+<section id="id1">
+<h3>Conclusión<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<p>El alto porcentaje de valores nulos en variables clave sugiere la necesidad de aplicar estrategias de imputación, como reemplazo por la mediana o clustering para estimar valores faltantes. En casos donde la información ausente sea demasiado significativa y la variable tenga baja importancia en la predicción del riesgo crediticio, la eliminación podría ser una alternativa viable para optimizar el modelo.</p>
+</section>
+</section>
+<section id="analisis-de-correlacion-variables-numericas">
+<h2>Analisis de Correlación (Variables Numéricas)<a class="headerlink" href="#analisis-de-correlacion-variables-numericas" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="c1"># Ver qué columnas son categóricas</span>
+<span class="n">categorical_cols</span> <span class="o">=</span> <span class="n">train_final</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;object&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">columns</span>
+
+<span class="c1"># Eliminar columnas categóricas antes de calcular la correlación</span>
+<span class="n">train_numeric</span> <span class="o">=</span> <span class="n">train_final</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">categorical_cols</span><span class="p">)</span>
+
+<span class="c1"># Calcular correlación solo en variables numéricas y tomar valores absolutos</span>
+<span class="n">correlations</span> <span class="o">=</span> <span class="n">train_numeric</span><span class="o">.</span><span class="n">corr</span><span class="p">()[</span><span class="s2">&quot;TARGET&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># Tomar las 10 variables más correlacionadas con TARGET (excluyendo TARGET en sí mismo)</span>
+<span class="n">top_correlated_vars</span> <span class="o">=</span> <span class="n">correlations</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">11</span><span class="p">]</span>  <span class="c1"># Excluye TARGET en sí mismo</span>
+
+<span class="c1"># Mostrar resultados</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Top 10 variables más correlacionadas (positiva o negativamente) con TARGET:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">top_correlated_vars</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Top 10 variables más correlacionadas (positiva o negativamente) con TARGET:
+ EXT_SOURCE_3                   0.188383
+EXT_SOURCE_2                   0.155210
+EXT_SOURCE_1                   0.153187
+AMT_BALANCE_mean               0.086428
+DAYS_BIRTH                     0.074314
+AMT_BALANCE_max                0.068921
+AMT_BALANCE_min                0.063483
+REGION_RATING_CLIENT_W_CITY    0.059832
+AMT_BALANCE_std                0.059429
+DAYS_LAST_PHONE_CHANGE         0.058111
+Name: TARGET, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="interpretacion">
+<h2>Interpretación<a class="headerlink" href="#interpretacion" title="Link to this heading">#</a></h2>
+<p>El análisis de correlación revela las variables con mayor relación con <strong>TARGET</strong>, lo que permite identificar los factores más influyentes en la predicción del incumplimiento crediticio.</p>
+<section id="puntajes-de-riesgo-externo">
+<h3>1. Puntajes de Riesgo Externo<a class="headerlink" href="#puntajes-de-riesgo-externo" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Las variables con mayor correlación son:</p>
+<ul>
+<li><p><strong>EXT_SOURCE_3 (0.188)</strong></p></li>
+<li><p><strong>EXT_SOURCE_2 (0.155)</strong></p></li>
+<li><p><strong>EXT_SOURCE_1 (0.153)</strong></p></li>
+</ul>
+</li>
+<li><p>Esto indica que los puntajes de riesgo externo tienen un impacto significativo en la probabilidad de incumplimiento, sugiriendo que estos indicadores son cruciales para evaluar la solvencia de los clientes.</p></li>
+</ul>
+</section>
+<section id="factores-financieros">
+<h3>2. Factores Financieros<a class="headerlink" href="#factores-financieros" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Variables como:</p>
+<ul>
+<li><p><strong>AMT_BALANCE_mean (0.086)</strong></p></li>
+<li><p><strong>AMT_BALANCE_max (0.069)</strong></p></li>
+</ul>
+</li>
+<li><p>Estas relaciones sugieren que los saldos promedios y los valores extremos en cuentas previas están vinculados al comportamiento crediticio, lo que podría reflejar hábitos de gasto o acumulación de deuda.</p></li>
+</ul>
+</section>
+<section id="factores-demograficos-y-de-informacion-de-contacto">
+<h3>3. Factores Demográficos y de Información de Contacto<a class="headerlink" href="#factores-demograficos-y-de-informacion-de-contacto" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>DAYS_BIRTH (0.074)</strong> muestra una relación moderada con TARGET, lo que sugiere que la edad del cliente puede influir en la probabilidad de incumplimiento.</p></li>
+<li><p><strong>DAYS_LAST_PHONE_CHANGE (0.058)</strong> indica que cambios recientes en la información de contacto pueden ser un factor relevante en la evaluación del riesgo crediticio.</p></li>
+</ul>
+</section>
+<section id="id2">
+<h3>Conclusión<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<p>Los puntajes de riesgo externo son los predictores más fuertes de incumplimiento, mientras que variables financieras y demográficas también pueden aportar información útil para la evaluación del riesgo crediticio. La combinación de estos factores podría mejorar la precisión de los modelos de predicción.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Visualizar la distribución de las variables más correlacionadas</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">15</span><span class="p">))</span>
+<span class="n">axes</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">top_correlated_vars</span><span class="o">.</span><span class="n">index</span><span class="p">):</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">train_final</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">(),</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">kde</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Distribución de </span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/507ed5a7257414cee509457b23194de8d5bd1e528bcff5b9b30c7928a3b83b0c.png" src="_images/507ed5a7257414cee509457b23194de8d5bd1e528bcff5b9b30c7928a3b83b0c.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="analisis-visual-de-las-distribuciones-de-las-variables-mas-correlacionadas-con-target">
+<h2>Análisis Visual de las Distribuciones de las Variables Más Correlacionadas con TARGET<a class="headerlink" href="#analisis-visual-de-las-distribuciones-de-las-variables-mas-correlacionadas-con-target" title="Link to this heading">#</a></h2>
+<p>Veamos que conclusiones podemos sacar de las distribuciones observadas</p>
+<section id="ext-source-3-ext-source-2-y-ext-source-1">
+<h3>1. EXT_SOURCE_3, EXT_SOURCE_2 y EXT_SOURCE_1<a class="headerlink" href="#ext-source-3-ext-source-2-y-ext-source-1" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Estas variables presentan distribuciones continuas y mayormente uniformes, aunque con ligeros sesgos hacia valores intermedios.</p></li>
+<li><p><strong>EXT_SOURCE_2</strong> muestra una distribución más sesgada a la derecha, lo que sugiere que una mayor cantidad de clientes tiene puntajes de riesgo más altos.</p></li>
+<li><p>En general, los puntajes de riesgo externo parecen estar bien distribuidos entre los clientes, con una mayor concentración en valores medios y altos.</p></li>
+</ul>
+</section>
+<section id="days-birth">
+<h3>2. DAYS_BIRTH<a class="headerlink" href="#days-birth" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>La distribución es <strong>bimodal</strong> y refleja la edad de los clientes en días negativos (al representar días desde el nacimiento).</p></li>
+<li><p>Se observa una mayor concentración en ciertos rangos etarios, lo que podría estar relacionado con criterios de selección o segmentación en el otorgamiento de créditos.</p></li>
+<li><p>La presencia de picos sugiere que algunos grupos de edad tienen más representación en la muestra.</p></li>
+</ul>
+</section>
+<section id="amt-balance-mean-y-amt-balance-max">
+<h3>3. AMT_BALANCE_mean y AMT_BALANCE_max<a class="headerlink" href="#amt-balance-mean-y-amt-balance-max" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Ambas variables presentan distribuciones <strong>altamente sesgadas a la derecha</strong>, con una gran cantidad de valores cercanos a cero y algunos valores extremadamente altos.</p></li>
+<li><p>Esto indica que la mayoría de los clientes mantiene <strong>saldos bajos en sus cuentas de crédito</strong>, mientras que una minoría maneja montos significativamente elevados.</p></li>
+<li><p>Este patrón puede reflejar diferencias en los niveles de crédito otorgado o en los hábitos financieros de los clientes.</p></li>
+</ul>
+</section>
+<section id="id3">
+<h3>Conclusión<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
+<p>Las distribuciones muestran patrones claros que pueden influir en la segmentación y análisis de riesgo crediticio. La fuerte asimetría en variables como <strong>AMT_BALANCE_mean y AMT_BALANCE_max</strong> sugiere la necesidad de transformaciones para mejorar su manejo en modelos de predicción. Asimismo, la bimodalidad de <strong>DAYS_BIRTH</strong> podría indicar diferencias estructurales en la población analizada.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">distribution_tests</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">top_correlated_vars</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">train_final</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">5000</span><span class="p">:</span>  <span class="c1"># Limitar tamaño para pruebas estadísticas</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5000</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+    <span class="c1"># Pruebas de normalidad</span>
+    <span class="n">shapiro_test</span> <span class="o">=</span> <span class="n">shapiro</span><span class="p">(</span><span class="n">data</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># p-valor</span>
+    <span class="n">ks_test</span> <span class="o">=</span> <span class="n">kstest</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;norm&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># p-valor</span>
+    <span class="n">skewness</span> <span class="o">=</span> <span class="n">skew</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="n">distribution_tests</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;Shapiro-Wilk p-value&quot;</span><span class="p">:</span> <span class="n">shapiro_test</span><span class="p">,</span>
+        <span class="s2">&quot;Kolmogorov-Smirnov p-value&quot;</span><span class="p">:</span> <span class="n">ks_test</span><span class="p">,</span>
+        <span class="s2">&quot;Asimetría&quot;</span><span class="p">:</span> <span class="n">skewness</span>
+    <span class="p">}</span>
+
+<span class="c1"># Mostrar resultados de las pruebas de distribución</span>
+<span class="n">distribution_tests_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">distribution_tests</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Pruebas de normalidad y asimetría:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">distribution_tests_df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Pruebas de normalidad y asimetría:
+                              Shapiro-Wilk p-value  Kolmogorov-Smirnov p-value  Asimetría
+EXT_SOURCE_3                         1.212785e-28                         0.0  -0.299534
+EXT_SOURCE_2                         1.469559e-44                         0.0  -0.797425
+EXT_SOURCE_1                         2.754945e-27                         0.0  -0.094627
+AMT_BALANCE_mean                     4.496601e-69                         0.0   2.399885
+DAYS_BIRTH                           1.803122e-31                         0.0  -0.099533
+AMT_BALANCE_max                      1.388065e-61                         0.0   1.680782
+AMT_BALANCE_min                      1.876203e-88                         0.0   6.408558
+REGION_RATING_CLIENT_W_CITY          9.416145e-72                         0.0   0.102572
+AMT_BALANCE_std                      1.722200e-65                         0.0   2.131571
+DAYS_LAST_PHONE_CHANGE               1.264442e-37                         0.0  -0.437897
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="analisis-de-normalidad-y-asimetria">
+<h2>Análisis de Normalidad y Asimetría<a class="headerlink" href="#analisis-de-normalidad-y-asimetria" title="Link to this heading">#</a></h2>
+<section id="normalidad-pruebas-de-shapiro-wilk-y-kolmogorov-smirnov">
+<h3>1. Normalidad (Pruebas de Shapiro-Wilk y Kolmogorov-Smirnov)<a class="headerlink" href="#normalidad-pruebas-de-shapiro-wilk-y-kolmogorov-smirnov" title="Link to this heading">#</a></h3>
+<p>Todas las variables presentan p-valores extremadamente bajos (≈0.0) en ambas pruebas, lo que indica que ninguna de ellas sigue una distribución normal. Esto sugiere que los datos contienen sesgos o colas largas que los alejan de la distribución gaussiana, lo cual debe ser considerado al seleccionar técnicas estadísticas o modelos de aprendizaje automático.</p>
+</section>
+<section id="asimetria">
+<h3>2. Asimetría<a class="headerlink" href="#asimetria" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>EXT_SOURCE_3, EXT_SOURCE_2 y EXT_SOURCE_1</strong>: Presentan una <strong>leve asimetría negativa</strong>, lo que indica una ligera concentración de valores altos y una cola más extendida hacia la izquierda.</p></li>
+<li><p><strong>DAYS_BIRTH y DAYS_LAST_PHONE_CHANGE</strong>: Muestran una <strong>asimetría negativa moderada</strong>, lo que sugiere que la mayoría de los valores se encuentran en la parte alta, con una distribución sesgada hacia valores menores.</p></li>
+<li><p><strong>AMT_BALANCE_mean, AMT_BALANCE_max y AMT_BALANCE_std</strong>: Exhiben una <strong>asimetría positiva alta</strong>, lo que significa que la mayoría de los valores son pequeños, pero algunos valores extremos empujan la distribución hacia la derecha.</p></li>
+<li><p><strong>AMT_BALANCE_min</strong>: Presenta la mayor <strong>asimetría positiva (6.40)</strong>, lo que indica una distribución altamente sesgada hacia valores muy pequeños con la presencia de observaciones extremadamente grandes.</p></li>
+</ul>
+</section>
+<section id="id4">
+<h3>Conclusión<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<p>Las variables analizadas <strong>no siguen una distribución normal</strong>, lo que implica que métodos estadísticos basados en la suposición de normalidad pueden no ser adecuados. Además, la fuerte asimetría observada en variables como <strong>AMT_BALANCE_min</strong> sugiere la presencia de valores atípicos o distribuciones altamente sesgadas, lo que puede afectar la interpretación y el modelado de datos. En consecuencia, se recomienda aplicar transformaciones o métodos robustos que manejen estas características para mejorar la calidad del análisis.</p>
+</section>
+<section id="analisis-de-multicolinealidad-variables-numericas">
+<h3>Analisis de multicolinealidad (variables numéricas)<a class="headerlink" href="#analisis-de-multicolinealidad-variables-numericas" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Añadir TARGET manualmente al conjunto de variables más correlacionadas</span>
+<span class="n">top_correlated_vars</span> <span class="o">=</span> <span class="n">correlations</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">11</span><span class="p">]</span>  <span class="c1"># Excluye TARGET en sí mismo</span>
+<span class="n">top_correlated_vars</span><span class="p">[</span><span class="s2">&quot;TARGET&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">correlations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># Añade TARGET a la lista</span>
+
+<span class="c1"># Generar la matriz de correlación incluyendo TARGET</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">train_final</span><span class="p">[</span><span class="n">top_correlated_vars</span><span class="o">.</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">corr</span><span class="p">(),</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;coolwarm&quot;</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;.2f&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Matriz de correlación incluyendo TARGET&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\ASUS\AppData\Local\Temp\ipykernel_26032\4061662299.py:3: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  top_correlated_vars[&quot;TARGET&quot;] = correlations[0]  # Añade TARGET a la lista
+</pre></div>
+</div>
+<img alt="_images/6e2b489bfd7fbe27f90c8827dba9ebca3dfa10d9506492f37b0396e3c77b6496.png" src="_images/6e2b489bfd7fbe27f90c8827dba9ebca3dfa10d9506492f37b0396e3c77b6496.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="interpretacion-de-multicolinealidad-en-la-matriz-de-correlacion">
+<h2>Interpretación de Multicolinealidad en la Matriz de Correlación<a class="headerlink" href="#interpretacion-de-multicolinealidad-en-la-matriz-de-correlacion" title="Link to this heading">#</a></h2>
+<p>Observando la matriz de correlación, se pueden identificar varias variables con alta correlación entre sí, lo que sugiere la presencia de multicolinealidad. Esto podría generar redundancia en el modelo y afectar su interpretación y desempeño. A continuación, se destacan las principales relaciones detectadas:</p>
+<section id="variables-con-alta-correlacion">
+<h3>Variables con alta correlación<a class="headerlink" href="#variables-con-alta-correlacion" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>AMT_BALANCE_max y AMT_BALANCE_std</strong> → Correlación de <strong>0.93</strong></p>
+<ul class="simple">
+<li><p>Estas dos variables están fuertemente correlacionadas, lo que indica que aportan información similar. Se recomienda evaluar si una de ellas puede ser eliminada.</p></li>
+</ul>
+</li>
+<li><p><strong>AMT_BALANCE_max y AMT_BALANCE_mean</strong> → Correlación de <strong>0.88</strong></p>
+<ul class="simple">
+<li><p>La relación es muy fuerte, lo que sugiere que ambas variables contienen información redundante. Conservar solo una de ellas podría simplificar el modelo sin perder valor predictivo.</p></li>
+</ul>
+</li>
+<li><p><strong>AMT_BALANCE_std y AMT_BALANCE_mean</strong> → Correlación de <strong>0.74</strong></p>
+<ul class="simple">
+<li><p>Aunque menor que las anteriores, esta correlación sigue siendo significativa y puede justificar la eliminación de una de las variables.</p></li>
+</ul>
+</li>
+<li><p><strong>AMT_BALANCE_min y AMT_BALANCE_mean</strong> → Correlación de <strong>0.52</strong></p>
+<ul class="simple">
+<li><p>La relación es menos pronunciada, pero sigue indicando que ambas variables pueden estar capturando información similar.</p></li>
+</ul>
+</li>
+<li><p><strong>EXT_SOURCE_1 y DAYS_BIRTH</strong> → Correlación de <strong>-0.60</strong></p>
+<ul class="simple">
+<li><p>Aunque se trata de una correlación negativa, indica que estas variables están inversamente relacionadas. No es un caso típico de multicolinealidad, pero es importante evaluar si ambas aportan información única o si una de ellas puede ser descartada.</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="id5">
+<h3>Conclusión<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<p>Para reducir la multicolinealidad y mejorar la eficiencia del modelo, se recomienda considerar la eliminación de algunas variables:</p>
+<ul class="simple">
+<li><p><strong>AMT_BALANCE_std o AMT_BALANCE_max</strong>, ya que tienen una correlación de 0.93.</p></li>
+<li><p><strong>AMT_BALANCE_mean o AMT_BALANCE_max</strong>, debido a su correlación de 0.88.</p></li>
+<li><p><strong>EXT_SOURCE_1 o DAYS_BIRTH</strong>, dependiendo del impacto en la predicción, dado que presentan una relación inversa significativa.</p></li>
+</ul>
+<p>Reducir la redundancia en los datos puede mejorar la estabilidad y la interpretabilidad del modelo sin afectar su capacidad predictiva.</p>
+</section>
+</section>
+<section id="analisis-de-correlacion-variables-categoricas">
+<h2>Análisis de correlación (variables categóricas)<a class="headerlink" href="#analisis-de-correlacion-variables-categoricas" title="Link to this heading">#</a></h2>
+<p>A continuación vamos a realizar un análisis de correlación de la variable target contra las variables categoricas de nuestra base.</p>
+<p>También verificaremos si existe variables altamente correlacionadas entre sí, para evitar multicolinealidad.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">stats</span>
+
+<span class="c1"># Filtrar solo variables categóricas</span>
+<span class="n">categorical_vars</span> <span class="o">=</span> <span class="n">train_final</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;object&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">columns</span>
+
+<span class="c1"># Almacenar resultados de chi-cuadrado</span>
+<span class="n">chi2_results</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">cat_var</span> <span class="ow">in</span> <span class="n">categorical_vars</span><span class="p">:</span>
+    <span class="c1"># Crear tabla de contingencia</span>
+    <span class="n">contingency_table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">train_final</span><span class="p">[</span><span class="n">cat_var</span><span class="p">],</span> <span class="n">train_final</span><span class="p">[</span><span class="s2">&quot;TARGET&quot;</span><span class="p">])</span>
+    
+    <span class="c1"># Aplicar prueba de chi-cuadrado</span>
+    <span class="n">chi2_stat</span><span class="p">,</span> <span class="n">p_value</span><span class="p">,</span> <span class="n">dof</span><span class="p">,</span> <span class="n">expected</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">chi2_contingency</span><span class="p">(</span><span class="n">contingency_table</span><span class="p">)</span>
+    
+    <span class="c1"># Guardar resultados</span>
+    <span class="n">chi2_results</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">cat_var</span><span class="p">,</span> <span class="n">chi2_stat</span><span class="p">,</span> <span class="n">p_value</span><span class="p">))</span>
+
+<span class="c1"># Convertir a DataFrame</span>
+<span class="n">chi2_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">chi2_results</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Variable&quot;</span><span class="p">,</span> <span class="s2">&quot;Chi2 Statistic&quot;</span><span class="p">,</span> <span class="s2">&quot;P-value&quot;</span><span class="p">])</span>
+<span class="n">chi2_df</span> <span class="o">=</span> <span class="n">chi2_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;Chi2 Statistic&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>  <span class="c1"># Ordenar por impacto</span>
+
+<span class="c1"># Normalizar el Chi2 Statistic para mejor visualización (opcional)</span>
+<span class="n">chi2_df</span><span class="p">[</span><span class="s2">&quot;Chi2 Normalizado&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">chi2_df</span><span class="p">[</span><span class="s2">&quot;Chi2 Statistic&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">chi2_df</span><span class="p">[</span><span class="s2">&quot;Chi2 Statistic&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">())</span> <span class="o">/</span> <span class="p">(</span><span class="n">chi2_df</span><span class="p">[</span><span class="s2">&quot;Chi2 Statistic&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">chi2_df</span><span class="p">[</span><span class="s2">&quot;Chi2 Statistic&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+
+<span class="c1"># Crear heatmap solo con Chi2 Statistic normalizado</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span>
+    <span class="n">chi2_df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;Variable&quot;</span><span class="p">)[[</span><span class="s2">&quot;Chi2 Normalizado&quot;</span><span class="p">]],</span>  <span class="c1"># Solo usamos el Chi2 normalizado</span>
+    <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Reds&quot;</span><span class="p">,</span>  <span class="c1"># Paleta llamativa</span>
+    <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># Mostrar valores</span>
+    <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">cbar_kws</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;Intensidad de Relación con TARGET&#39;</span><span class="p">}</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Heatmap del Chi-cuadrado: Variables Categóricas vs TARGET&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Chi2 Statistic Normalizado&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Variables Categóricas&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/b5b6fa3a65954202677df67e413b572343d2a96c7c4e869aa66a7a9ecaa92767.png" src="_images/b5b6fa3a65954202677df67e413b572343d2a96c7c4e869aa66a7a9ecaa92767.png" />
+</div>
+</div>
+</section>
+<section id="analisis-del-heatmap-de-chi-cuadrado-variables-categoricas-vs-target">
+<h2>Análisis del Heatmap de Chi-cuadrado: Variables Categóricas vs TARGET<a class="headerlink" href="#analisis-del-heatmap-de-chi-cuadrado-variables-categoricas-vs-target" title="Link to this heading">#</a></h2>
+<p>El análisis de chi-cuadrado revela que ciertas variables categóricas tienen una fuerte relación con <strong>TARGET</strong>, lo que indica su relevancia en la predicción del riesgo crediticio.</p>
+<section id="variables-con-mayor-relacion-con-target">
+<h3>1. Variables con Mayor Relación con TARGET<a class="headerlink" href="#variables-con-mayor-relacion-con-target" title="Link to this heading">#</a></h3>
+<p>Las siguientes variables presentan una alta intensidad de relación con TARGET, lo que sugiere que influyen significativamente en la probabilidad de incumplimiento crediticio:</p>
+<ul class="simple">
+<li><p><strong>ORGANIZATION_1.0 (0.84)</strong>: El tipo de organización donde trabaja el cliente es la variable categórica más relevante, lo que indica que ciertos sectores o tipos de empleo están más asociados con riesgo de incumplimiento.</p></li>
+<li><p><strong>NAME_INCOME_T84E (0.78)</strong>: La fuente de ingresos del cliente es un factor clave, lo que sugiere que ciertos tipos de ingresos (asalariado, autónomo, pensionado, etc.) pueden estar correlacionados con diferentes niveles de riesgo crediticio.</p></li>
+<li><p><strong>OCCUPATION_T8PE (0.74)</strong>: La ocupación del cliente influye en la capacidad de pago, posiblemente debido a la estabilidad laboral y nivel de ingresos.</p></li>
+<li><p><strong>CODE_REJECT_R7ASON (0.64)</strong>: Los motivos de rechazo de solicitudes anteriores muestran una relación moderadamente alta con TARGET, lo que sugiere que clientes con antecedentes de rechazo pueden tener un mayor riesgo de incumplimiento.</p></li>
+<li><p><strong>NAME_CONTRACT_S4ATUS (0.62)</strong>: El estado del contrato previo puede indicar la tendencia de un cliente a cumplir o no con sus compromisos financieros.</p></li>
+</ul>
+</section>
+<section id="variables-con-relacion-moderada">
+<h3>2. Variables con Relación Moderada<a class="headerlink" href="#variables-con-relacion-moderada" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>PRODUCT_CO6BINATION (0.52)</strong>: El tipo de combinación de productos financieros adquiridos por el cliente parece tener una influencia en el comportamiento crediticio.</p></li>
+<li><p><strong>C52E_GENDER (0.49)</strong>: Aunque menos significativa que las anteriores, el género del cliente muestra cierta relación con el riesgo de incumplimiento.</p></li>
+<li><p><strong>NAME_EDU49TION_TYPE (0.35)</strong> y <strong>NAME_PRODUCT_TYPE (0.34)</strong>: El nivel educativo y el tipo de producto contratado pueden influir en la probabilidad de impago, aunque en menor medida.</p></li>
+</ul>
+</section>
+<section id="variables-con-impacto-insignificante">
+<h3>3. Variables con Impacto Insignificante<a class="headerlink" href="#variables-con-impacto-insignificante" title="Link to this heading">#</a></h3>
+<p>Algunas variables presentan una relación prácticamente nula con TARGET, lo que indica que su influencia en el riesgo crediticio es mínima:</p>
+<ul class="simple">
+<li><p><strong>FLAG_OWN_REALTY (0.004)</strong>: La propiedad de vivienda no parece ser un factor determinante en la capacidad de pago del cliente.</p></li>
+<li><p><strong>FLAG_LAST_APPL_PER_CONTRACT (0.0015)</strong> y <strong>EMERGENCYSTATE_MODE (0.0)</strong>: Estas variables tienen un impacto despreciable, lo que sugiere que pueden eliminarse sin afectar el desempeño del modelo.</p></li>
+</ul>
+</section>
+<section id="id6">
+<h3>Conclusión<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
+<p>Las variables con mayor relación con <strong>TARGET</strong>, como <strong>ORGANIZATION_TYPE, NAME_INCOME_TYPE y OCCUPATION_TYPE</strong>, deben priorizarse en el análisis y modelado del riesgo crediticio. En contraste, variables con influencia insignificante pueden eliminarse para reducir la dimensionalidad y mejorar la eficiencia del modelo sin perder información relevante.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">stats</span>
+
+<span class="c1"># Seleccionar las 10 variables categóricas más correlacionadas con TARGET</span>
+<span class="n">top_categorical_vars</span> <span class="o">=</span> <span class="n">chi2_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>  <span class="c1"># Extrae las 10 más importantes</span>
+<span class="n">top_categorical_vars_list</span> <span class="o">=</span> <span class="n">top_categorical_vars</span><span class="p">[</span><span class="s2">&quot;Variable&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+<span class="c1"># Función para calcular Cramer&#39;s V</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cramers_v</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="n">contingency_table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="n">chi2_stat</span><span class="p">,</span> <span class="n">p_value</span><span class="p">,</span> <span class="n">dof</span><span class="p">,</span> <span class="n">expected</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">chi2_contingency</span><span class="p">(</span><span class="n">contingency_table</span><span class="p">)</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">contingency_table</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">chi2_stat</span> <span class="o">/</span> <span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">contingency_table</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)))</span>
+
+<span class="c1"># Seleccionar las 10 variables categóricas más correlacionadas con TARGET</span>
+<span class="n">top_categorical_vars_list</span> <span class="o">=</span> <span class="n">top_categorical_vars</span><span class="p">[</span><span class="s2">&quot;Variable&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">top_categorical_vars</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="k">else</span> <span class="n">top_categorical_vars</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+<span class="c1"># Crear matriz vacía para almacenar Cramer&#39;s V</span>
+<span class="n">cramers_v_matrix</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">top_categorical_vars_list</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">top_categorical_vars_list</span><span class="p">))),</span>
+                                <span class="n">index</span><span class="o">=</span><span class="n">top_categorical_vars_list</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">top_categorical_vars_list</span><span class="p">)</span>
+
+<span class="c1"># Calcular Cramer&#39;s V para cada par de variables categóricas</span>
+<span class="k">for</span> <span class="n">var1</span> <span class="ow">in</span> <span class="n">top_categorical_vars_list</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">var2</span> <span class="ow">in</span> <span class="n">top_categorical_vars_list</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">var1</span> <span class="o">==</span> <span class="n">var2</span><span class="p">:</span>
+            <span class="n">cramers_v_matrix</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">var1</span><span class="p">,</span> <span class="n">var2</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># 🔥 Asigna 1.0 en la diagonal principal</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">cramers_v_matrix</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">var1</span><span class="p">,</span> <span class="n">var2</span><span class="p">]</span> <span class="o">=</span> <span class="n">cramers_v</span><span class="p">(</span><span class="n">train_final</span><span class="p">[</span><span class="n">var1</span><span class="p">],</span> <span class="n">train_final</span><span class="p">[</span><span class="n">var2</span><span class="p">])</span>
+
+<span class="c1"># Crear heatmap de correlación entre variables categóricas con Cramer&#39;s V</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">cramers_v_matrix</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;coolwarm&quot;</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;.2f&quot;</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Matriz de correlación entre las 10 variables categóricas más correlacionadas con TARGET (Cramer&#39;s V)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/7a8e0dc14189d1abfed3dfaa31438bce12fe0ce33040a5b60d6f8e86a9b4606f.png" src="_images/7a8e0dc14189d1abfed3dfaa31438bce12fe0ce33040a5b60d6f8e86a9b4606f.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="interpretacion-del-heatmap-de-cramer-s-v">
+<h2>Interpretación del Heatmap de Cramér’s V<a class="headerlink" href="#interpretacion-del-heatmap-de-cramer-s-v" title="Link to this heading">#</a></h2>
+<p>El <strong>heatmap de Cramér’s V</strong> muestra la correlación entre las 10 variables categóricas más relacionadas con <strong>TARGET</strong>. A partir del análisis, se destacan los siguientes puntos clave:</p>
+<section id="alta-correlacion-0-75">
+<h3><strong>Alta correlación (&gt;0.75)</strong><a class="headerlink" href="#alta-correlacion-0-75" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>PRODUCT_COMBINATION - NAME_PRODUCT_TYPE (0.89)</strong>: Fuerte relación, lo que indica que una de estas variables podría eliminarse para evitar multicolinealidad.</p></li>
+<li><p><strong>PRODUCT_COMBINATION - NAME_YIELD_GROUP (0.76)</strong>: También presentan una fuerte dependencia, lo que sugiere información redundante.</p></li>
+</ul>
+</section>
+<section id="correlacion-moderada-0-5-0-75">
+<h3><strong>Correlación moderada (0.5 - 0.75)</strong><a class="headerlink" href="#correlacion-moderada-0-5-0-75" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>NAME_CONTRACT_STATUS - CODE_REJECT_REASON (0.82)</strong>: Es esperable, ya que el estado del contrato está influenciado por las razones de rechazo.</p></li>
+<li><p><strong>NAME_CONTRACT_STATUS - PRODUCT_COMBINATION (0.55)</strong>: Sugiere una relación entre cómo los productos de crédito están agrupados según el estado del contrato.</p></li>
+</ul>
+</section>
+<section id="baja-correlacion-0-5">
+<h3><em>Baja correlación (&lt;0.5)</em>*<a class="headerlink" href="#baja-correlacion-0-5" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>La mayoría de las demás combinaciones tienen valores bajos, indicando que no hay relaciones fuertes entre ellas y, por lo tanto, no generan un problema significativo de redundancia.</p></li>
+</ul>
+</section>
+<section id="id7">
+<h3><strong>Conclusión</strong><a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
+<p>Para <strong>evitar problemas de multicolinealidad</strong>, podemos:</p>
+<ul class="simple">
+<li><p>Eliminar <strong>NAME_PRODUCT_TYPE</strong> o <strong>PRODUCT_COMBINATION</strong>.</p></li>
+<li><p>Evaluar si <strong>NAME_YIELD_GROUP</strong> aporta información adicional o es redundante.</p></li>
+<li><p>Revisar la necesidad de incluir <strong>CODE_REJECT_REASON</strong> y <strong>NAME_CONTRACT_STATUS</strong>, ya que tienen una alta correlación entre sí.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="c1"># Seleccionar las 5 variables categóricas más correlacionadas con TARGET</span>
+<span class="n">top_categorical_vars</span> <span class="o">=</span> <span class="n">chi2_df</span><span class="p">[</span><span class="s2">&quot;Variable&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+<span class="c1"># Verificar si las variables están en train_final</span>
+<span class="n">top_categorical_vars</span> <span class="o">=</span> <span class="p">[</span><span class="n">var</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">top_categorical_vars</span> <span class="k">if</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">train_final</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+
+<span class="c1"># Generar gráficos individuales para cada variable categórica más correlacionada con TARGET</span>
+<span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">top_categorical_vars</span><span class="p">:</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+    
+    <span class="c1"># Seleccionar las 10 categorías más frecuentes</span>
+    <span class="n">top_categories</span> <span class="o">=</span> <span class="n">train_final</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">index</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>
+    
+    <span class="c1"># Filtrar el DataFrame para incluir solo esas categorías</span>
+    <span class="n">filtered_data</span> <span class="o">=</span> <span class="n">train_final</span><span class="p">[</span><span class="n">train_final</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">top_categories</span><span class="p">)]</span>
+    
+    <span class="c1"># Graficar</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">countplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">filtered_data</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">var</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s2">&quot;TARGET&quot;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s2">&quot;coolwarm&quot;</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">top_categories</span><span class="p">)</span>
+    
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Distribución de TARGET en </span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Cantidad&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;TARGET&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;No incumplió (0)&quot;</span><span class="p">,</span> <span class="s2">&quot;Incumplió (1)&quot;</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/22eed837e0a2917b2ff2aaf696fbae2fe19140fa048a767cab0cd9b5a65e4e57.png" src="_images/22eed837e0a2917b2ff2aaf696fbae2fe19140fa048a767cab0cd9b5a65e4e57.png" />
+<img alt="_images/e2493e291d8c9212d837d61c00bf78d25448b32a401e5a4b4a5818bc0c195bc6.png" src="_images/e2493e291d8c9212d837d61c00bf78d25448b32a401e5a4b4a5818bc0c195bc6.png" />
+<img alt="_images/898f6050573a756b5cfc3ba1433b8e0ae518ca971bbfd99ebc5344d3add27402.png" src="_images/898f6050573a756b5cfc3ba1433b8e0ae518ca971bbfd99ebc5344d3add27402.png" />
+<img alt="_images/d08681bd95cf26a995f2d16ba62bfa3115bea85289e8f26eef270e19c0a96f1f.png" src="_images/d08681bd95cf26a995f2d16ba62bfa3115bea85289e8f26eef270e19c0a96f1f.png" />
+<img alt="_images/2ebfa08dd0e339a763aa66b80df025d2bdd39f9019cadf0fc5157d4ca8b1899b.png" src="_images/2ebfa08dd0e339a763aa66b80df025d2bdd39f9019cadf0fc5157d4ca8b1899b.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="analisis-de-las-variables-categoricas-mas-correlacionadas-con-target">
+<h2>Análisis de las Variables Categóricas más Correlacionadas con TARGET<a class="headerlink" href="#analisis-de-las-variables-categoricas-mas-correlacionadas-con-target" title="Link to this heading">#</a></h2>
+<p>Los gráficos muestran la distribución de la variable <strong>TARGET</strong> para las cinco variables categóricas más correlacionadas con el incumplimiento de pagos. En todos los casos, la mayoría de los clientes pertenecen a la categoría <strong>TARGET = 0</strong>, lo que indica que <strong>la gran mayoría de los clientes han cumplido con sus pagos</strong>. Sin embargo, algunos patrones destacan:</p>
+<section id="organization-type">
+<h3>1. ORGANIZATION_TYPE<a class="headerlink" href="#organization-type" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Los clientes que trabajan en ciertos sectores, como <strong>Business Entity Type 3, Government y Electricity</strong>, tienen una alta representación en la base de datos y también presentan ciertos niveles de incumplimiento, aunque siempre en menor proporción respecto a los cumplidores.</p></li>
+</ul>
+</section>
+<section id="name-income-type">
+<h3>2. NAME_INCOME_TYPE<a class="headerlink" href="#name-income-type" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>La mayoría de los clientes con ingresos provienen de la categoría <strong>Working (trabajadores dependientes)</strong>, seguida de <strong>Commercial associate y Pensioner</strong>.</p></li>
+<li><p>Aunque en todas las categorías la proporción de incumplimiento es baja, se puede notar que los <strong>desempleados y trabajadores informales</strong> tienen una proporción ligeramente mayor de incumplimiento en comparación con otros grupos.</p></li>
+</ul>
+</section>
+<section id="occupation-type">
+<h3>3. OCCUPATION_TYPE<a class="headerlink" href="#occupation-type" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Las ocupaciones más comunes son <strong>Laborers, Core Staff y Accountants</strong>, con la mayoría de los clientes cumpliendo con sus pagos.</p></li>
+<li><p>Sin embargo, ciertas ocupaciones pueden presentar un mayor riesgo relativo de incumplimiento, como <strong>Low-skill laborers y Waiters/Barmen staff</strong>, aunque siguen siendo minoría dentro de sus respectivas categorías.</p></li>
+</ul>
+</section>
+<section id="code-reject-reason">
+<h3>4. CODE_REJECT_REASON<a class="headerlink" href="#code-reject-reason" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>La mayoría de los rechazos de crédito están etiquetados bajo la categoría <strong>XAP</strong>, que también muestra la mayor cantidad de incumplidores dentro del grupo.</p></li>
+<li><p>Algunas otras razones, como <strong>LIMIT y HC</strong>, presentan una mayor proporción de incumplimiento en comparación con las demás razones de rechazo.</p></li>
+</ul>
+</section>
+<section id="name-contract-status">
+<h3>5. NAME_CONTRACT_STATUS<a class="headerlink" href="#name-contract-status" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Los contratos <strong>Approved</strong> (aprobados) son la categoría predominante, con una gran mayoría de clientes que cumplen con sus pagos.</p></li>
+<li><p>Sin embargo, en contratos <strong>Canceled y Refused</strong>, la proporción de incumplimiento es levemente más alta en comparación con los contratos aprobados.</p></li>
+</ul>
+</section>
+</section>
+<section id="id8">
+<h2>Conclusión<a class="headerlink" href="#id8" title="Link to this heading">#</a></h2>
+<p>Si bien <strong>la gran mayoría de los clientes han cumplido con sus pagos (TARGET = 0)</strong>, algunas categorías de ocupación, fuente de ingresos y tipo de organización presentan proporciones de incumplimiento ligeramente más altas. Estas diferencias pueden ser útiles para mejorar modelos predictivos de riesgo crediticio y ajustar estrategias de aprobación de crédito.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="contexto.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Home Credit Risk Analysis</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Modelos_Home_Credit.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Evaluación de Modelos - Home Credit Default Risk</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduccion">Introducción</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivos-del-eda">Objetivos del EDA</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#carga-de-datos">Carga de datos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#diccionario-de-datos">Diccionario de datos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-descriptivo-de-los-datos">Análisis Descriptivo de los datos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-de-la-distribucion-de-la-variable-target">Análisis de la Distribución de la Variable TARGET</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implicaciones-para-el-modelado-predictivo">Implicaciones para el Modelado Predictivo</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#estrategias-para-mitigar-el-desequilibrio">Estrategias para Mitigar el Desequilibrio</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">Conclusión</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#identificacion-de-datos-nulos">Identificación de datos nulos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-de-variables-con-alto-porcentaje-de-valores-nulos">Análisis de Variables con Alto Porcentaje de Valores Nulos</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-con-mayor-porcentaje-de-datos-faltantes">1. Variables con Mayor Porcentaje de Datos Faltantes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-relacionadas-con-caracteristicas-de-vivienda">2. Variables Relacionadas con Características de Vivienda</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Conclusión</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-de-correlacion-variables-numericas">Analisis de Correlación (Variables Numéricas)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretacion">Interpretación</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#puntajes-de-riesgo-externo">1. Puntajes de Riesgo Externo</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#factores-financieros">2. Factores Financieros</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#factores-demograficos-y-de-informacion-de-contacto">3. Factores Demográficos y de Información de Contacto</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Conclusión</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-visual-de-las-distribuciones-de-las-variables-mas-correlacionadas-con-target">Análisis Visual de las Distribuciones de las Variables Más Correlacionadas con TARGET</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ext-source-3-ext-source-2-y-ext-source-1">1. EXT_SOURCE_3, EXT_SOURCE_2 y EXT_SOURCE_1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#days-birth">2. DAYS_BIRTH</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#amt-balance-mean-y-amt-balance-max">3. AMT_BALANCE_mean y AMT_BALANCE_max</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Conclusión</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-de-normalidad-y-asimetria">Análisis de Normalidad y Asimetría</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#normalidad-pruebas-de-shapiro-wilk-y-kolmogorov-smirnov">1. Normalidad (Pruebas de Shapiro-Wilk y Kolmogorov-Smirnov)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#asimetria">2. Asimetría</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Conclusión</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-de-multicolinealidad-variables-numericas">Analisis de multicolinealidad (variables numéricas)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretacion-de-multicolinealidad-en-la-matriz-de-correlacion">Interpretación de Multicolinealidad en la Matriz de Correlación</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-con-alta-correlacion">Variables con alta correlación</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Conclusión</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-de-correlacion-variables-categoricas">Análisis de correlación (variables categóricas)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-del-heatmap-de-chi-cuadrado-variables-categoricas-vs-target">Análisis del Heatmap de Chi-cuadrado: Variables Categóricas vs TARGET</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-con-mayor-relacion-con-target">1. Variables con Mayor Relación con TARGET</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-con-relacion-moderada">2. Variables con Relación Moderada</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-con-impacto-insignificante">3. Variables con Impacto Insignificante</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Conclusión</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretacion-del-heatmap-de-cramer-s-v">Interpretación del Heatmap de Cramér’s V</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#alta-correlacion-0-75"><strong>Alta correlación (&gt;0.75)</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#correlacion-moderada-0-5-0-75"><strong>Correlación moderada (0.5 - 0.75)</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#baja-correlacion-0-5"><em>Baja correlación (&lt;0.5)</em>*</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7"><strong>Conclusión</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-de-las-variables-categoricas-mas-correlacionadas-con-target">Análisis de las Variables Categóricas más Correlacionadas con TARGET</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#organization-type">1. ORGANIZATION_TYPE</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#name-income-type">2. NAME_INCOME_TYPE</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#occupation-type">3. OCCUPATION_TYPE</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#code-reject-reason">4. CODE_REJECT_REASON</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#name-contract-status">5. NAME_CONTRACT_STATUS</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Conclusión</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Nicolás
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <p style="text-align:center;">
+  🚀 Desarrollado por <b>Nicolás</b> — Proyecto Home Credit Risk Analysis
+</p>
+
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
