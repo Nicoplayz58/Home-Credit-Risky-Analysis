@@ -1,0 +1,35 @@
+# Book settings
+# Learn more at https://jupyterbook.org/customize/config.html
+
+title: Home Credit Risk Analysis
+author: Nicolás
+logo: ""  # si tienes un logo (por ejemplo logo.png), pon su nombre aquí
+
+# No volver a ejecutar los notebooks cada vez (solo mostrarlos)
+execute:
+  execute_notebooks: cache
+# Definición del archivo LaTeX (por si luego generas PDF)
+latex:
+  latex_documents:
+    targetname: homecredit-book.tex
+
+# Si luego quieres citas, aquí iría tu archivo .bib (opcional)
+# bibtex_bibfiles:
+#   - references.bib
+
+# Información del repositorio donde vive el libro
+repository:
+  url: https://github.com/Nicoplayz58/Home-Credit-Risky-Analysis
+  path_to_book: .
+  branch: main
+
+# Configuración visual HTML
+html:
+  favicon: ""  # puedes poner un .ico si tienes uno
+  use_issues_button: true
+  use_repository_button: true
+  home_page_in_navbar: true  # muestra la portada "Contexto del Problema" en el menú
+  extra_footer: |
+    <p style="text-align:center;">
+      🚀 Desarrollado por <b>Nicolás</b> — Proyecto Home Credit Risk Analysis
+    </p>

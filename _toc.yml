@@ -1,0 +1,9 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: contexto
+
+chapters:
+  - file: EDA_Home_Credit_V2
+  - file: Modelos_Home_Credit
