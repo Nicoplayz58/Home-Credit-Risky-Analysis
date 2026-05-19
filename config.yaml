@@ -1,0 +1,51 @@
+project:
+  name: home_credit_risk
+  seed: 42
+
+spark:
+  app_name: home_credit_feature_engineering
+  master: local[*]
+  driver_memory: 18g
+  executor_memory: 18g
+  shuffle_partitions: 64
+  broadcast_timeout: 1800
+  adaptive_enabled: true
+  dynamic_partition_pruning: true
+
+paths:
+  data_root: data
+  raw: data
+  interim: data/interim
+  processed: data/processed
+  features: data/features
+  registry: metadata/registry
+  schemas: metadata/schemas
+  checks: metadata/checks
+  logs: logs
+
+tables:
+  application_train: application_train.csv
+  application_test: application_test.csv
+  bureau: bureau.csv
+  bureau_balance: bureau_balance.csv
+  previous_application: previous_application.csv
+  installments_payments: installments_payments.csv
+  pos_cash_balance: POS_CASH_balance.csv
+  credit_card_balance: credit_card_balance.csv
+  columns_description: HomeCredit_columns_description.csv
+
+output:
+  file_format: parquet
+  compression: snappy
+  max_records_per_file: 250000
+  repartition_by_key: true
+
+quality:
+  duplicate_tolerance: 0
+  expected_left_join_multiplier: 1.0
+  null_report_top_n: 200
+
+drift:
+  psi_buckets: 10
+  psi_warn: 0.1
+  psi_alert: 0.25
